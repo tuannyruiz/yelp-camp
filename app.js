@@ -18,16 +18,16 @@ var campgroundSchema = new mongoose.Schema({
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
-Campground.create(
-    {name: "Granite Hill", image: "https://farm4.staticflickr.com/3273/2602356334_20fbb23543.jpg"},
-    function(err, campground){
-        if(err){
-            console.log(err);
-        } else {
-            console.log(campground);   
-        }
-    }
-);
+// Campground.create(
+//     {name: "Granite Hill", image: "https://farm4.staticflickr.com/3273/2602356334_20fbb23543.jpg"},
+//     function(err, campground){
+//         if(err){
+//             console.log(err);
+//         } else {
+//             console.log(campground);   
+//         }
+//     }
+// );
 
 // 
 
@@ -48,7 +48,13 @@ app.get("/", function(req, res) {
 });
 
 app.get("/campgrounds", function(req, res) {
-    res.render("campgrounds", {campgrounds: allCampgrounds});
+    Campground.find({}, function(err, allCampgrounds) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("campgrounds", {campgrounds: allCampgrounds});
+        }
+    });
 });
 
 app.post("/campgrounds", function(req, res) {
